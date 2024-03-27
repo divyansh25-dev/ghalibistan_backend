@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Ghazal,Discussion,Reaction
 from rest_framework import generics
-from .serializers import GhazalSerializer,DiscussionSerializer
+from .serializers import GhazalSerializer,DiscussionSerializer,ReactionSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 # Create your views here.
@@ -43,3 +43,28 @@ class DiscussionRUD(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method == 'GET':
             return []
         return [IsAuthenticated()]
+    
+
+class ReactionCreate(generics.CreateAPIView):
+    serializer_class = ReactionSerializer
+    queryset = Reaction.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        discussion_id = self.request.data.get('discussion')
+        discussion_instance = get_object_or_404(Discussion,pk=discussion_id)
+        serializer.save(reacted_by=self.request.user,discussion=discussion_instance)
+
+
+        
+
+class ReactionRUD(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ReactionSerializer
+    queryset = Reaction.objects.all()
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return []
+        return [IsAuthenticated()]
+        
+        
