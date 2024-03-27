@@ -1,4 +1,1 @@
-﻿# ghalibistan_backend
-
-##ENDPOINTS
 
