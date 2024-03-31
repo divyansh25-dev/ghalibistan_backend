@@ -1,21 +1,94 @@
 from django.urls import path
-from .views import GhazalCreateAndRead,GhazalGetUpdateDelete,DiscussionCreate,DiscussionRUD,ReactionCreate,ReactionRUD
+from . import views
+# from .views import GhazalCreateAndRead,GhazalGetUpdateDelete,DiscussionCreate,DiscussionRUD,ReactionCreate,ReactionRUD
 
 urlpatterns = [
-
-    #CRUD GHAZALS
-    path('create/', GhazalCreateAndRead.as_view()),
-    path('',GhazalCreateAndRead.as_view()),
-    path('read/<int:pk>/',GhazalGetUpdateDelete.as_view()),
-    path('update/<int:pk>/',GhazalGetUpdateDelete.as_view()),
-    path('delete/<int:pk>/',GhazalGetUpdateDelete.as_view()),
-    
-    #CRUD DISCUSSIONS
-    path('discussion/',DiscussionCreate.as_view()),
-    path('discussion/<int:pk>/',DiscussionRUD.as_view()),
-
-    #CRUD REACTiONS
-    path('reaction/',ReactionCreate.as_view()),
-    path('reaction/<int:pk>/',ReactionRUD.as_view())
-        
+    path('poem/create/',views.CreatePoem.as_view()),
+    path('poem/list/',views.ListPoems.as_view()),
+    path('reaction/create/',views.CreateReaction.as_view())
 ]
+
+
+
+
+
+
+###LIST OF POEMS
+
+'''{
+    {
+id : 8,
+name : qais,
+author : ghalib,
+likes : 2,
+love : 3,
+insightful : 1,
+clap : 8,
+user_reaction : like,
+posted_by : bhupendra jogi
+}
+,
+{
+id : 9,
+name : a_qais,
+author : a_ghalib,
+likes : 2,py
+love : 3,
+insightful : 1,
+clap : 8,
+user_reaction : love,
+posted_by : bhupendra jogi
+}
+}
+
+Accessible To Everyone
+'''
+
+
+
+### Single Poem(GET)
+'''
+{
+id : 1,
+name : qais,
+interpretaion : Big Text,
+author : mirza ghalib,
+posted_by : Divyansh,
+likes : 2,
+love : 3,
+insightful : 1,
+clap : 8,
+user_reaction : likes,
+posted_by : bhupendra jogi
+}
+
+ATA
+'''   
+
+### Single Poem(POST)
+'''{
+name : qais,
+interpretaion : Big Text,
+author : mirza ghalib,
+posted_by : user.auth
+
+Accessible to Authenticated Users
+}'''
+
+
+### Single Poem(Patch)
+
+'''{
+Update Anything()
+Check is it the same person who has posted it
+}'''
+
+
+### Reaction On Poem(Post)
+'''
+{
+reacted_by : auth.user,
+reaction : love,
+poem_id : 1
+}
+'''
