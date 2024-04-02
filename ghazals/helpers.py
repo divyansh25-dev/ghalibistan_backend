@@ -25,10 +25,10 @@ class Aggregate:
                      'name' : poem.get('name'),
                      'author' : poem.get('author',''),
                      'interpretation' : poem.get('interpretation',''),
-                     'likes' : reactions.get('likes',0),
-                     'loves' : reactions.get('loves',0),
-                     'insightful' : reactions.get('insightful',0),
-                     'clap' : reactions.get('clap',0)
+                     'likes' : reactions.get('likes'),
+                     'loves' : reactions.get('loves'),
+                     'insightful' : reactions.get('insightful'),
+                     'clap' : reactions.get('clap')
                 }
                 if temp not in final_data:
                     final_data.append(temp)
@@ -36,8 +36,6 @@ class Aggregate:
             return final_data
 
                 
-         
-
     def aggregate_reactions(self,poems):
         for poem in poems:
                 if poem['id'] not in self.reaction_counter.keys():
@@ -50,8 +48,3 @@ class Aggregate:
                 self.increment_counters(poem)
 
         return self.modified_data(poems)
-            
-
-
-
-

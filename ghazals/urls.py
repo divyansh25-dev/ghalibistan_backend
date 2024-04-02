@@ -5,13 +5,19 @@ from . import views
 urlpatterns = [
     path('poem/create/',views.CreatePoem.as_view()),
     path('poem/list/',views.ListPoems.as_view()),
-    path('reaction/create/',views.CreateReaction.as_view())
+    path('reaction/create/',views.CreateReaction.as_view()),
+    path('poem/update/<int:pk>/',views.FetchUpdateDeletePoem.as_view()),
+    path('poem/fetch/<int:pk>/',views.FetchUpdateDeletePoem.as_view()),
+    path('poem/delete/<int:pk>/',views.FetchUpdateDeletePoem.as_view()),
 ]
 
 
 
 
 
+
+
+##########################################################################################################
 
 ###LIST OF POEMS
 

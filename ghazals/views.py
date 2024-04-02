@@ -34,6 +34,13 @@ class ListPoems(generics.ListAPIView):
         modified_data = Aggregate().aggregate_reactions(serializer.data)
         return Response(modified_data)
 
+
+
+class FetchUpdateDeletePoem(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PoemSerializer
+    queryset = Poem.objects.all()
+
+
 class CreatePoem(generics.CreateAPIView):
     serializer_class = PoemSerializer
     queryset=Poem.objects.all()
@@ -62,37 +69,6 @@ class CreateReaction(generics.CreateAPIView):
         
 
 
-###LIST OF POEMS
-
-'''{
-    {
-id : 8,
-name : qais,
-author : ghalib,
-likes : 2,
-love : 3,
-insightful : 1,
-clap : 8,
-user_reaction : like,
-posted_by : bhupendra jogi
-}
-,
-{
-id : 9,
-name : a_qais,
-author : a_ghalib,
-likes : 2,
-love : 3,
-insightful : 1,
-clap : 8,
-user_reaction : love,
-posted_by : bhupendra jogi
-}
-}
-
-Accessible To Everyone
-'''
-
 
 
 ### Single Poem(GET)
@@ -114,15 +90,6 @@ posted_by : bhupendra jogi
 ATA
 '''   
 
-### Single Poem(POST)
-'''{
-name : qais,
-interpretaion : Big Text,
-author : mirza ghalib,
-posted_by : user.auth
-
-Accessible to Authenticated Users
-}'''
 
 
 ### Single Poem(Patch)
@@ -133,76 +100,3 @@ Check is it the same person who has posted it
 }'''
 
 
-### Reaction On Poem(Post)
-'''
-{
-reacted_by : auth.user,
-reaction : love,
-poem_id : 1
-}
-'''
-
-
-
-# class GhazalCreateAndRead(generics.ListCreateAPIView):
-#     serializer_class = GhazalSerializer
-#     queryset = Ghazal.objects.all()
-    
-#     def get_permissions(self):
-#         if self.request.method == 'GET':
-#             return []
-#         return [IsAuthenticated()]
-
-    # def perform_create(self, serializer):
-    #     serializer.save(posted_by=self.request.user)
-
-# class GhazalGetUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = GhazalSerializer
-#     queryset = Ghazal.objects.all()
-
-
-# class DiscussionCreate(generics.CreateAPIView):
-#     serializer_class = DiscussionSerializer
-#     queryset = Discussion.objects.all()
-#     permission_classes = [IsAuthenticated]
-    
-#     def perform_create(self, serializer):
-#         ghazal_id = self.request.data.get('ghazal')
-#         ghazal_instance = get_object_or_404(Ghazal, pk=ghazal_id)
-#         serializer.save(commented_by=self.request.user, ghazal=ghazal_instance)
-
-
-# class DiscussionRUD(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = DiscussionSerializer
-#     queryset = Discussion.objects.all()
-
-#     def get_permissions(self):
-#         if self.request.method == 'GET':
-#             return []
-#         return [IsAuthenticated()]
-    
-
-# class ReactionCreate(generics.CreateAPIView):
-#     serializer_class = ReactionSerializer
-#     queryset = Reaction.objects.all()
-#     permission_classes = [IsAuthenticated]
-
-#     def perform_create(self, seriali
-
-#         discussion_id = self.request.data.get('discussion')
-#         discussion_instance = get_object_or_404(Discussion,pk=discussion_id)
-#         serializer.save(reacted_by=self.request.user,discussion=discussion_instance)
-
-
-        
-
-# class ReactionRUD(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = ReactionSerializer
-#     queryset = Reaction.objects.all()
-
-#     def get_permissions(self):
-#         if self.request.method == 'GET':
-#             return []
-#         return [IsAuthenticated()]
-        
-        
