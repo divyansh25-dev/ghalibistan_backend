@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .helpers import Aggregate
+from .permissions import IsOwnerOrReadOnly
 # Create your views here.
 
 
@@ -27,7 +28,6 @@ class ListPoems(generics.ListAPIView):
 
         return Poem.objects.raw(custom_query)
 
-
     def list(self,request,*args,**kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
@@ -39,11 +39,15 @@ class ListPoems(generics.ListAPIView):
 class FetchUpdateDeletePoem(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PoemSerializer
     queryset = Poem.objects.all()
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+
 
 
 class CreatePoem(generics.CreateAPIView):
     serializer_class = PoemSerializer
     queryset=Poem.objects.all()
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(posted_by=self.request.user)
@@ -60,43 +64,12 @@ class CreatePoem(generics.CreateAPIView):
 class CreateReaction(generics.CreateAPIView):
     serializer_class = PoemReactionsSerializer
     queryset = PoemReactions.objects.all()
+    permission_classes = [IsAuthenticated]
     
-
     def perform_create(self,serializer):    
         instance = Poem.objects.get(id=self.request.data.get('poem_id'))
         serializer.save(poem=instance,reacted_by=self.request.user)
 
         
-
-
-
-
-### Single Poem(GET)
-'''
-{
-id : 1,
-name : qais,
-interpretaion : Big Text,
-author : mirza ghalib,
-posted_by : Divyansh,
-likes : 2,
-love : 3,
-insightful : 1,
-clap : 8,
-user_reaction : likes,
-posted_by : bhupendra jogi
-}
-
-ATA
-'''   
-
-
-
-### Single Poem(Patch)
-
-'''{
-Update Anything()
-Check is it the same person who has posted it
-}'''
 
 
